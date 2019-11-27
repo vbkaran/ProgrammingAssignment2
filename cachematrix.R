@@ -3,45 +3,29 @@
 
 ## Write a short comment describing this function
 
-makeVector <- function(x = numeric()) {
-  m <- NULL
+makeCacheMatrix <- function(x = matrix(sample(1:300,10),3,3)) {
+  s <- NULL
   set <- function(y) {
     x <<- y
-    m <<- NULL
+    s <<- NULL
   }
   get <- function() x
-  setmean <- function(mean) m <<- mean
-  getmean <- function() m
+  setsolve <- function(solve) s <<- solve
+  getsolve <- function() s
   list(set = set, get = get,
-       setmean = setmean,
-       getmean = getmean)
+       setsolve = setsolve,
+       getsolve = getsolve)
 }
-
-
-makeCacheMatrix <- function(x = matrix()) {
-  inv <- NULL
-  set <- function(y){
-    x <<- y
-    inv <<- NULL
-  }
-  get <- function() x
-  setInverse <- function(solveMatrix) inv <<- solveMatrix
-  getInverse <- function() inv
-  list(set = set, get = get, setInverse = setInverse, getInverse = getInverse)
-}
-
-
-## Write a short comment describing this function
-
+##
+## Same here, changed "mean" to "solve" and "m" to "s"
 cacheSolve <- function(x, ...) {
-  inv <- x$getInverse()
-  if(!is.null(inv)){
-    message("getting cached data")
-    return(inv)
+  s <- x$getsolve()
+  if(!is.null(s)) {
+    message("getting inversed matrix")
+    return(s)
   }
   data <- x$get()
-  inv <- solve(data)
-  x$setInverse(inv)
-  inv      
+  s <- solve(data, ...)
+  x$setsolve(s)
+  s
 }
-
